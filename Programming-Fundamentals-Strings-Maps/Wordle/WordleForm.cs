@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Wordle;
 
 public partial class WordleForm : Form
@@ -168,33 +166,29 @@ public partial class WordleForm : Form
 			{
 				return textbox.Text;
 			}
-
 			tempString += textbox.Text[0];
 			currentBoxes.Add(textbox);
 
 		}
-		currentTextBox += 5;
-
 
 		return tempString;
 	}
 
 	private bool ValidateInput(string input)
 	{
-		for (int i = 0; i < input.Length; i++)
+
+
+		if (input.All(char.IsLetter) && input.Length == 5)
 		{
-
-			if (char.IsLetter(input[i]) && input.Length == 5)
-			{
-				return true;
-			}
-
+			currentTextBox += 5;
+			return true;
 		}
 
 		//if not successful, 
 		//display message (invalid/incomplete word)
 		MessageBox.Show("Please enter a valid, five-letter word.");
 		return false;
+
 	}
 
 	private bool IsCorrectWord(string attempt)
@@ -257,7 +251,7 @@ public partial class WordleForm : Form
 
 	private void btnSubmit_ClickEnter(object sender, KeyEventArgs e)
 	{
-		if (e.KeyCode == Keys.Enter)
+		if (e.KeyData == Keys.Enter)
 		{
 			btnSubmit.PerformClick();
 		}

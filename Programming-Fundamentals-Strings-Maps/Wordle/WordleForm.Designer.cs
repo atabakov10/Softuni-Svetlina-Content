@@ -475,7 +475,7 @@
 			this.btnHint.Location = new System.Drawing.Point(264, 176);
 			this.btnHint.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnHint.Name = "btnHint";
-			this.btnHint.Size = new System.Drawing.Size(110, 45);
+			this.btnHint.Size = new System.Drawing.Size(110, 43);
 			this.btnHint.TabIndex = 103;
 			this.btnHint.Text = "Hint";
 			this.btnHint.UseVisualStyleBackColor = true;
