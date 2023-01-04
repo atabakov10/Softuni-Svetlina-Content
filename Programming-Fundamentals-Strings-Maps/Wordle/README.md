@@ -21,7 +21,7 @@ Rules:
 
 | Settings                        |  Picture                 |
 | --------------------------------|:------------------------:| 
-| **WordleForm**:<br>Text = "Wordle",<br>Font = Segoe UI, 9pt,<br>AutoScaleMode = Font,<br>Size = 437, 356|                                         <img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/209855762-a40695f3-a1e0-4a4f-a030-d5b60eae6249.png" />         
+| **WordleForm**:<br>Text = "Wordle",<br>Font = Segoe UI, 9pt,<br>AutoScaleMode = Font,<br>Size = 437, 356|                                         <img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/210612953-1ae9bbf3-b4e7-41b5-bd34-14ab674f7d3f.png" />         
 | **btnReset**:<br>Font = Segoe UI, 9pt,<br>Text = Reset,<br>UseVisualStyleBackColor = True,<br>Location = 264, 74,<br>Margin = 3, 4, 3, 4,<br>Size = 110, 43|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209854900-3b4f4780-435a-4b6b-8985-005627d1a6e8.png" />
 | **btnSubmit**:<br>Font = Segoe UI, 9pt,<br>Text = Submit,<br>UseVisualStyleBackColor = True,<br>Location = 264, 125,<br>Margin = 3, 4, 3, 4,<br>Size = 110, 43|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209937640-634f5675-bcc9-41e8-8acc-3d4357be5d40.png" />  
 | **btnHint**:<br>Font = Segoe UI, 9pt,<br>Text = Hint,<br>UseVisualStyleBackColor = True,<br>Location = 264, 176,<br>Margin = 3, 4, 3, 4,<br>Size = 110, 43|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209938009-945de425-2ef1-438a-ada0-8b3299f3f3e5.png" />
