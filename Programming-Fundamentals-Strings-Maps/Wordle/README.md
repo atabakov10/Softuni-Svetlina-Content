@@ -6,6 +6,9 @@ Simple **C# Windows Forms App** implementation of **Wordle** game.
 
 [Wordle](https://en.wikipedia.org/wiki/Wordle) is a single-player **word-guessing** game. You need to **find the right word** by typing **random words** until you **guess the right one**. You have **6** tries to guess it.
 
+# Controls
+- Use `left`(**◄**) and `right`(**►**) keyboard arrows to **move** between the **boxes**.
+
 Rules:
 - The word will be **exactly 5** symbols.
 - If the letter that you **type** turns $\text{\color{green}{green}}$, it means that it is the **right letter** on the **right place**.
