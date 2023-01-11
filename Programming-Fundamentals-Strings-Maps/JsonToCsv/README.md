@@ -1,7 +1,7 @@
 # GUI "JsonToCsv" App
 Simple **C# Windows Forms App** implementation of **Json-To-sv** game.
 
-<img width= 325px src="https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/rockcms/2022-01/csv-to-json-pandas-python-alpharithms.jpg" />
+<img width= 325px src="https://user-images.githubusercontent.com/99538671/211764493-560a73f2-53a5-475a-83e3-77b152201046.jpg" />
 
 [Json-To-Csv](https://edutechwiki.unige.ch/en/JSON-CSV_Converter) is a single-player **Json-To-Csv-Converter** game. 
 You need to **enter a number from 1 to 3** by typing it in **the small box **. When you type the **digit**, you should hit the **Submit** button. After that,
