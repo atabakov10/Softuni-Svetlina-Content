@@ -1,13 +1,14 @@
+using System;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using static System.Int32;
 
 namespace JsonToCsv
 {
-	public partial class JsonToCsv : Form
+	public partial class JsonToCsvForm : Form
 	{
 
-		public JsonToCsv()
+		public JsonToCsvForm()
 		{
 			InitializeComponent();
 		}
@@ -15,12 +16,17 @@ namespace JsonToCsv
 		private int count;
 		private string info;
 
+		private void InvalidInformation()
+		{
+			MessageBox.Show("Invalid JSON");
+			numberTextBox.Focus();
+			
+		}
 		public void OutputInformation(Dictionary<string, object> information)
 		{
 			if (information == null)
 			{
-				MessageBox.Show("Invalid JSON");
-				textBox3.Focus();
+				InvalidInformation();
 				return;
 			}
 			foreach (var d in information)
@@ -59,9 +65,9 @@ namespace JsonToCsv
 		}
 		public void AddLine(string s)
 		{
-			// Appends our csv converted json into two lines
+			// Appends our CSV converted JSON into two lines
 			s = s.Remove(s.Length - 2);
-			textBox2.AppendText(string.Join(" ", s, Environment.NewLine));
+			csvTextBox.AppendText(string.Join(" ", s, Environment.NewLine));
 		}
 
 		private void ResetButton_Click(object sender, EventArgs e)
@@ -74,36 +80,51 @@ namespace JsonToCsv
 		{
 			// Using counter to count the clicks of the covert button, since it has two functions
 			count++;
-			string url = "https://contactbook.nakov.repl.co/api/contacts/";
+			var userDigit = numberTextBox.Text;
 
-			HttpClient client = new HttpClient();
-
-			var userDigit = textBox3.Text;
-			if (ValidateUserDigit(userDigit))
+			// If counter is at 1, it means we already clicked the btn, so now we need to rename it to [Convert to JSON]
+			if (count == 1)
 			{
+				if (ValidateUserDigit(userDigit) == false)
+				{
+					return;
+				}
+
+				string url = "https://contactbook.nakov.repl.co/api/contacts/";
+
+				HttpClient client = new HttpClient();
+
 				Task<string> response = client.GetStringAsync(url + userDigit);
 
-				textBox1.Text = response.Result;
-				var convertToJson = "Convert to JSON";
+				ConvertButtonsAndTextBox(response);
 
-				// If counter is at 1, it means we already clicked the btn, so now we need to rename it to [Convert to JSON]
-				if (count == 1)
-				{
-					btnConvert.Text = convertToJson;
-				}
-
-				// If we're at second click, we need to show the csv version of the json
-				else if (count == 2)
-				{
-					textBox3.ReadOnly = true;
-					btnConvert.Enabled = false;
-					Regex arrayFinder = new Regex(@"\{(?<items>[^\]]*)\}");
-					string array = arrayFinder.Match(textBox1.Text).Value;
-					string[] arrayObjects = array.Split(new string[] { ",{", ",\n{", ",\n  {" }, StringSplitOptions.None);
-
-					AddObjects(arrayObjects);
-				}
 			}
+			// If we're at second click, we need to show the csv version of the json
+			else if (count == 2)
+			{
+				Regex arrayFinder = new Regex(@"\{(?<items>[^\]]*)\}");
+				string array = arrayFinder.Match(jsonTextBox.Text).Value;
+				string[] arrayObjects = array.Split(new string[] { ",{", ",\n{", ",\n  {" }, StringSplitOptions.None);
+
+				AddObjects(arrayObjects);
+				EndGame();
+			}
+		}
+
+		private void ConvertButtonsAndTextBox(Task<string> response)
+		{
+			var convertToJson = "Convert to CSV";
+
+			jsonTextBox.Text = response.Result;
+			btnConvert.Text = convertToJson;
+			btnConvert.Location = new Point(457, 200);
+		}
+		private void EndGame()
+		{
+			// Handle buttons
+			numberTextBox.ReadOnly = true;
+			btnConvert.Enabled = false;
+			this.btnReset.Focus();
 		}
 		private bool ValidateUserDigit(string userDigit)
 		{
@@ -114,7 +135,7 @@ namespace JsonToCsv
 			{
 				count--;
 				MessageBox.Show("The number should be a valid, 1 to 3.");
-				textBox3.Focus();
+				numberTextBox.Focus();
 				return false;
 			}
 			return true;
@@ -122,9 +143,9 @@ namespace JsonToCsv
 
 		private void TextBox3_TextChanged(object sender, EventArgs e)
 		{
-			if (textBox3.TextLength != 0)
+			if (numberTextBox.TextLength != 0)
 			{
-				label1.Hide();
+				numberLabel.Hide();
 				btnConvert.Focus();
 			}
 		}

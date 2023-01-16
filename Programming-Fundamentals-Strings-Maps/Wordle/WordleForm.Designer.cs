@@ -61,7 +61,7 @@
 			this.textBox30 = new System.Windows.Forms.TextBox();
 			this.btnReset = new System.Windows.Forms.Button();
 			this.btnHint = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.instructions = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -452,17 +452,17 @@
 			this.btnHint.TabStop = false;
 			this.btnHint.Text = "Hint";
 			this.btnHint.UseVisualStyleBackColor = true;
-			this.btnHint.Click += new System.EventHandler(this.Hint);
+			this.btnHint.Click += new System.EventHandler(this.GiveHint);
 			// 
-			// label1
+			// instructions
 			// 
-			this.label1.AutoSize = true;
-			this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.label1.Location = new System.Drawing.Point(56, 23);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(141, 20);
-			this.label1.TabIndex = 104;
-			this.label1.Text = "Move with ← and →";
+			this.instructions.AutoSize = true;
+			this.instructions.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.instructions.Location = new System.Drawing.Point(56, 23);
+			this.instructions.Name = "instructions";
+			this.instructions.Size = new System.Drawing.Size(141, 20);
+			this.instructions.TabIndex = 104;
+			this.instructions.Text = "Move with ← and →";
 			// 
 			// WordleForm
 			// 
@@ -471,7 +471,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.ClientSize = new System.Drawing.Size(419, 309);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.instructions);
 			this.Controls.Add(this.btnHint);
 			this.Controls.Add(this.btnReset);
 			this.Controls.Add(this.textBox30);
@@ -550,6 +550,6 @@
         private TextBox textBox30;
         private Button btnReset;
         private Button btnHint;
-		private Label label1;
+		private Label instructions;
 	}
 }
