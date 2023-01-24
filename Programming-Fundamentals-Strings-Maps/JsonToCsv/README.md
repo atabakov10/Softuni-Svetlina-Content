@@ -1,4 +1,4 @@
-# GUI "JsonToCsv" App
+# "JsonToCsv" App
 Simple **C# Windows Forms App** implementation of **Json-To-sv** game.
 
 <img width= 325px src="https://user-images.githubusercontent.com/99538671/211764493-560a73f2-53a5-475a-83e3-77b152201046.jpg" />

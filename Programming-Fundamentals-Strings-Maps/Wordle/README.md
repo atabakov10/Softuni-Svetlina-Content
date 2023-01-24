@@ -1,4 +1,4 @@
-# GUI "Wordle" App
+# "Wordle" App
 Simple **C# Windows Forms App** implementation of **Wordle** game.
 
 
