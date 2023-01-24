@@ -33,7 +33,6 @@
 			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.textBox5 = new System.Windows.Forms.TextBox();
-			this.btnSubmit = new System.Windows.Forms.Button();
 			this.textBox6 = new System.Windows.Forms.TextBox();
 			this.textBox7 = new System.Windows.Forms.TextBox();
 			this.textBox8 = new System.Windows.Forms.TextBox();
@@ -60,8 +59,9 @@
 			this.textBox29 = new System.Windows.Forms.TextBox();
 			this.textBox30 = new System.Windows.Forms.TextBox();
 			this.btnReset = new System.Windows.Forms.Button();
+			this.btnSubmit = new System.Windows.Forms.Button();
 			this.btnHint = new System.Windows.Forms.Button();
-			this.instructions = new System.Windows.Forms.Label();
+			this.instructionsLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -121,7 +121,7 @@
 			// 
 			// btnSubmit
 			// 
-			this.btnSubmit.Location = new System.Drawing.Point(264, 125);
+			this.btnSubmit.Location = new System.Drawing.Point(264, 139);
 			this.btnSubmit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnSubmit.Name = "btnSubmit";
 			this.btnSubmit.Size = new System.Drawing.Size(110, 43);
@@ -432,7 +432,7 @@
 			// 
 			// btnReset
 			// 
-			this.btnReset.Location = new System.Drawing.Point(264, 74);
+			this.btnReset.Location = new System.Drawing.Point(264, 88);
 			this.btnReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnReset.Name = "btnReset";
 			this.btnReset.Size = new System.Drawing.Size(110, 43);
@@ -444,7 +444,7 @@
 			// 
 			// btnHint
 			// 
-			this.btnHint.Location = new System.Drawing.Point(264, 176);
+			this.btnHint.Location = new System.Drawing.Point(264, 190);
 			this.btnHint.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnHint.Name = "btnHint";
 			this.btnHint.Size = new System.Drawing.Size(110, 43);
@@ -453,16 +453,17 @@
 			this.btnHint.Text = "Hint";
 			this.btnHint.UseVisualStyleBackColor = true;
 			this.btnHint.Click += new System.EventHandler(this.GiveHint);
+			this.btnHint.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HintCounterMouseClick);
 			// 
-			// instructions
+			// instructionsLabel
 			// 
-			this.instructions.AutoSize = true;
-			this.instructions.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.instructions.Location = new System.Drawing.Point(56, 23);
-			this.instructions.Name = "instructions";
-			this.instructions.Size = new System.Drawing.Size(141, 20);
-			this.instructions.TabIndex = 104;
-			this.instructions.Text = "Move with ← and →";
+			this.instructionsLabel.AutoSize = true;
+			this.instructionsLabel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.instructionsLabel.Location = new System.Drawing.Point(58, 11);
+			this.instructionsLabel.Name = "instructionsLabel";
+			this.instructionsLabel.Size = new System.Drawing.Size(141, 20);
+			this.instructionsLabel.TabIndex = 104;
+			this.instructionsLabel.Text = "Move with ← and →";
 			// 
 			// WordleForm
 			// 
@@ -471,7 +472,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.ClientSize = new System.Drawing.Size(419, 309);
-			this.Controls.Add(this.instructions);
+			this.Controls.Add(this.instructionsLabel);
 			this.Controls.Add(this.btnHint);
 			this.Controls.Add(this.btnReset);
 			this.Controls.Add(this.textBox30);
@@ -550,6 +551,6 @@
         private TextBox textBox30;
         private Button btnReset;
         private Button btnHint;
-		private Label instructions;
+		private Label instructionsLabel;
 	}
 }

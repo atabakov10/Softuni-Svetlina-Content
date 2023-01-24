@@ -1,16 +1,14 @@
-using System;
-using System.Linq;
-
 namespace Wordle;
 
 public partial class WordleForm : Form
 {
-    private const string WordsTextFile = @"wordsForWordle.txt";
-    private const int RowLength = 5;
+	private const string WordsTextFile = @"wordsForWordle.txt";
+	private const int RowLength = 5;
+	private const string PlayAgainMessage = "Play again?";
 
-    private Random rand = new Random();
 	private int currentRow = 0;
-	private int hintsCount = 1;
+	private int hintsCount = 0;
+
 	private string currentWord = string.Empty;
 	private List<TextBox> currentBoxes = new List<TextBox>();
 
@@ -25,25 +23,12 @@ public partial class WordleForm : Form
 		}
 	}
 
-	private void StartNewGame()
-	{
-		// Get all words
-        var wordList = GetAllWords();
-
-        // Get a new word from word list
-        currentWord = wordList[rand.Next(wordList.Count)];
-
-		// Enable submit & hint
-		btnSubmit.Enabled = true;
-		btnHint.Enabled = true;
-	}
-
 	private List<string> GetAllWords()
 	{
 		var allWords = new List<string>();
 
-        // Open the wordsForWordle.txt file and read all words (lines)
-        using (StreamReader reader = new StreamReader(WordsTextFile))
+		// Open the wordsForWordle.txt file and read all words (lines)
+		using (StreamReader reader = new StreamReader(WordsTextFile))
 		{
 			while (!reader.EndOfStream)
 			{
@@ -54,10 +39,24 @@ public partial class WordleForm : Form
 
 		return allWords;
 	}
+	private void StartNewGame()
+	{
+		// Get all words
+		var wordList = GetAllWords();
+
+		// Get a new word from word list
+		var random = new Random();
+		currentWord = wordList[random.Next(wordList.Count)];
+
+		// Enable submit & hint
+		btnSubmit.Enabled = true;
+		btnHint.Enabled = true;
+	}
+
 
 	private void Submit(object sender, EventArgs e)
 	{
-        var userWord = GetInput();
+		var userWord = GetInput();
 
 		if (!IsInputValid(userWord))
 		{
@@ -71,76 +70,87 @@ public partial class WordleForm : Form
 		if (IsWordGuessed(userWord))
 		{
 			FinalizeWinGame();
-            return;
+			return;
 		}
 
-		if (currentRow == RowLength)
+		if (IsCurrentRowLast())
 		{
 			FinalizeLostGame();
 			return;
 		}
 
 		ModifyTextBoxesAvailability(false);
-        currentRow++;
-        ModifyTextBoxesAvailability(true);
+		currentRow++;
+		ModifyTextBoxesAvailability(true);
+	}
 
-        this.btnHint.Enabled = true;
-    }
+	private bool IsCurrentRowLast()
+	=> this.currentRow == RowLength;
 
 	private void DisplayInvalidWordMessage()
 	{
-		MessageBox.Show("Please enter a valid, five-letter word.");
+		MessageBox.Show("Please enter a valid five-letter word.");
 	}
 
 	private void FinalizeLostGame()
 	{
-		MessageBox.Show($"Sorry you didn't win this time! The correct word was: {currentWord}");
+		MessageBox.Show($"Sorry you didn't win this time! The correct word was: {this.currentWord}");
 		btnSubmit.Enabled = false;
 		btnHint.Enabled = false;
+		btnReset.Text = PlayAgainMessage;
 	}
+
+	private int GetFirstTexBoxIndexOnRow()
+	=> this.currentRow * RowLength + 1;
 
 	private void ModifyTextBoxesAvailability(bool shouldBeEnabled)
 	{
-		var firstTextBoxIndexOnRow = currentRow * RowLength + 1;
+		var firstTextBoxIndexOnRow = GetFirstTexBoxIndexOnRow();
 
 		for (int i = 0; i < RowLength; i++)
 		{
-            // Get current row's text boxes
+			// Get current row's text boxes
 			var textBox = GetTextBox(firstTextBoxIndexOnRow + i);
 
 			// Enable row's text boxes
-			if(shouldBeEnabled)
+			if (shouldBeEnabled)
 			{
-                textBox.Enabled = true;
+				textBox.Enabled = true;
 
-                // Focus the first text box on the row
-                if (i == 0)
-                {
-                    textBox.Focus();
-                }
-            }
-            //  Disable row's text boxes
-            else
-            {
-                // Make the row readonly and not accessible with [Tab]
-                textBox.ReadOnly = true;
-                textBox.TabStop = false;
-            }
+				// Focus the first text box on the row
+				if (i == 0)
+				{
+					textBox.Focus();
+				}
+			}
+			//  Disable row's text boxes
+			else
+			{
+				// Make the row readonly and not accessible with [Tab]
+				textBox.ReadOnly = true;
+				textBox.TabStop = false;
+			}
 		}
 	}
 
-    private TextBox GetTextBox(int index)
-    {
-		// Get textBox name and the textBox itself
-        string textBoxName = string.Format("textBox{0}", index);
-        return this.Controls[textBoxName] as TextBox;
-    }
-
-    private void ColorBoxes()
+	private TextBox GetTextBox(int index)
 	{
-        for (int i = 0; i < currentBoxes.Count(); i++)
+		// Get textBox name and the textBox itself
+		string textBoxName = string.Format("textBox{0}", index);
+		return this.Controls[textBoxName] as TextBox;
+	}
+
+	private bool IsCharOnCorrectIndex(int index, char ch)
+		=> this.currentWord[index] == ch;
+
+	private bool WordContainsChar(char ch)
+		=> this.currentWord.Contains(ch, StringComparison.OrdinalIgnoreCase);
+
+	private void ColorBoxes()
+	{
+		for (int i = 0; i < this.currentBoxes.Count(); i++)
 		{
-			var textBox = currentBoxes[i];
+			var textBox = this.currentBoxes[i];
 			var currentTextBoxChar = textBox.Text.ToLower().FirstOrDefault();
 
 			// If character is not in word -> gray
@@ -161,12 +171,6 @@ public partial class WordleForm : Form
 		}
 	}
 
-	private bool IsCharOnCorrectIndex(int index, char ch) 
-		=> this.currentWord[index] == ch;
-
-	private bool WordContainsChar(char ch) 
-		=> this.currentWord.Contains(ch, StringComparison.OrdinalIgnoreCase);
-
 	private void FinalizeWinGame()
 	{
 		// Display message
@@ -176,18 +180,17 @@ public partial class WordleForm : Form
 		this.btnSubmit.Enabled = false;
 		this.btnHint.Enabled = false;
 
-        // Change [Reset] button text
-        this.btnReset.Text = "Play again?";
+		// Change [Reset] button text
+		this.btnReset.Text = PlayAgainMessage;
 
-        ModifyTextBoxesAvailability(false);
+		ModifyTextBoxesAvailability(false);
 	}
 
 	private string GetInput()
 	{
-		currentBoxes = new List<TextBox>();
+		this.currentBoxes = new List<TextBox>();
 		string tempString = string.Empty;
-
-		var firstTextBoxIndexOnRow = currentRow * RowLength + 1;
+		int firstTextBoxIndexOnRow = GetFirstTexBoxIndexOnRow();
 
 		for (int i = 0; i < RowLength; i++)
 		{
@@ -230,77 +233,99 @@ public partial class WordleForm : Form
 		Application.Restart();
 	}
 
-	private void GiveHint(object sender, EventArgs e)
+	private List<int> GetUnavailablePositions()
 	{
-		var unavailablePositions = new List<int>();
+		var firstIndexOnRow = GetFirstTexBoxIndexOnRow();
 
-        var firstTextBoxIndexOnRow = currentRow * RowLength + 1;
+		var positions = new List<int>();
 
-        for (int i = 0; i < RowLength; i++)
+		for (int i = 0; i < RowLength; i++)
 		{
-			var textBoxIndex = firstTextBoxIndexOnRow + i;
-            var textBox = GetTextBox(textBoxIndex);
-			if(!string.IsNullOrEmpty(textBox.Text))
+			var textBoxIndex = firstIndexOnRow + i;
+			var textBox = GetTextBox(textBoxIndex);
+			if (!string.IsNullOrEmpty(textBox.Text))
 			{
-				unavailablePositions.Add(textBoxIndex);
-            }
+				positions.Add(textBoxIndex);
+			}
 		}
 
-        if (unavailablePositions.Count == RowLength)
-        {
-	        InvalidUsedHint();
-	        return;
-        }
-
-        var random = new Random();
-
-        RandomIndexAddToList(random, unavailablePositions);
+		return positions;
 	}
-	private void RandomIndexAddToList(Random random, List<int> unavailablePositions)
+
+	private void ShowInvalidUseOfHintMessage()
 	{
+		MessageBox.Show("Free up a space for a hint.");
+		this.btnSubmit.Focus();
+		this.hintsCount -= 1;
+	}
+
+	private void RevealRandomWordLetter(List<int> unavailablePositions)
+	{
+		var random = new Random();
+
 		while (true)
 		{
-			var randomIndex = random.Next(1, RowLength);
+			var randomIndex = random.Next(1, RowLength + 1);
+			var randomTexBoxIndex = this.currentRow * RowLength + randomIndex;
 
-			if (unavailablePositions.Contains(randomIndex))
-			{
-				continue;
-			}
-
-			var randomTextBoxIndex = currentRow * RowLength + randomIndex;
-
-			var textBox = GetTextBox(randomTextBoxIndex);
+			var textBox = GetTextBox(randomTexBoxIndex);
 
 			if (textBox.Text != String.Empty)
 			{
 				continue;
 			}
 
-			var hintLetter = currentWord[randomIndex - 1].ToString();
+			var hintLetter = this.currentWord[randomIndex - 1].ToString();
 			textBox.Text = hintLetter;
+			unavailablePositions.Add(randomTexBoxIndex);
 
-			unavailablePositions.Add(randomTextBoxIndex);
-
-			HintCounterChecker();
-			hintsCount++;
 			break;
 		}
 	}
-	
-	private void HintCounterChecker()
+
+	private void GiveHint(object sender, EventArgs e)
 	{
-		if (hintsCount == 3)
+		var unavailablePositions = GetUnavailablePositions();
+
+		if (unavailablePositions.Count == RowLength)
+		{
+			ShowInvalidUseOfHintMessage();
+			return;
+		}
+
+		RevealRandomWordLetter(unavailablePositions);
+	}
+
+
+	private void HintCounterMouseClick(object sender, MouseEventArgs e)
+	{
+		this.hintsCount++;
+		if (this.hintsCount >= 3)
 		{
 			this.btnHint.Enabled = false;
-			this.hintsCount = 0;
 		}
 	}
 
-	private void InvalidUsedHint()
+	private bool LeftKeyIsPressed(Keys pressedKey, int currentTextBoxIndex)
+	=> pressedKey == Keys.Left && (currentTextBoxIndex + 4) % RowLength != 0;
+
+	private bool RightKeyIsPressed(Keys pressedKey, int currentTextBoxIndex)
+	=> pressedKey == Keys.Right && currentTextBoxIndex % RowLength != 0;
+	private void OnPressedArrowKey(Keys pressedKey, TextBox senderTextBox)
 	{
-		MessageBox.Show("You can't use Hint right now.");
-		btnHint.Enabled = true;
-		btnSubmit.Focus();
+		var currentTextBoxIndex = int.Parse(senderTextBox.Name.Replace("textBox", ""));
+
+		// Separate methods
+		if (RightKeyIsPressed(pressedKey, currentTextBoxIndex))
+		{
+			currentTextBoxIndex++;
+		}
+		else if (LeftKeyIsPressed(pressedKey, currentTextBoxIndex))
+		{
+			currentTextBoxIndex--;
+		}
+		var textBox = GetTextBox(currentTextBoxIndex);
+		textBox.Focus();
 	}
 
 	private void MoveCursor(object sender, KeyEventArgs e)
@@ -311,7 +336,7 @@ public partial class WordleForm : Form
 			return;
 		}
 		var senderTextBox = sender as TextBox;
-		PressedKey(pressedKey, senderTextBox);
+		OnPressedArrowKey(pressedKey, senderTextBox);
 	}
 
 	private void FocusTextBox(object sender, MouseEventArgs e)
@@ -321,21 +346,4 @@ public partial class WordleForm : Form
 			textBox.Focus();
 		}
 	}
-
-	private void PressedKey(Keys pressedKey, TextBox senderTextBox)
-	{
-		var currentTextBoxIndex = int.Parse(senderTextBox.Name.Replace("textBox", ""));
-
-		if (pressedKey == Keys.Right && currentTextBoxIndex % RowLength != 0)
-		{
-			currentTextBoxIndex++;
-		}
-		else if (pressedKey == Keys.Left && (currentTextBoxIndex + 4) % RowLength != 0)
-		{
-			currentTextBoxIndex--;
-		}
-		var textBox = GetTextBox(currentTextBoxIndex);
-		textBox.Focus();
-	}
-
 }
