@@ -11,9 +11,9 @@ Simple **C# Windows Forms App** implementation of **Wordle** game.
 
 Rules:
 - The word will be **exactly 5** symbols.
-- If the letter that you **type** turns $\text{\color{green}{green}}$, it means that it is the **right letter** on the **right place**.
-- If the **letter turns** $\text{\color{yellow}{yellow}}$, that means that the **word** contains your **letter**, but you didn't put it on the **right place**.
-- If the **letter turns**  $\text{\color{gray}{gray}}$, that means the letter **does not exist** in the **word**.
+- If the letter that you **type turns green**, it means that it is the **right letter** on the **right place**.
+- If the **letter turns yellow**, that means that the **word** contains your **letter**, but you didn't put it on the **right place**.
+- If the **letter turns  gray**, that means the letter **does not exist** in the **word**.
 - If you **guess the word**, you will receive a **message** saying that you've **won** and you can **play again**.
 - You **can't have same letters** in a word.
 
