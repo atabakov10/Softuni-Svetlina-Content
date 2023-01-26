@@ -21,11 +21,12 @@ Rules:
 
 | Settings                        |  Picture                 |
 | --------------------------------|:------------------------:| 
-| **WordleForm**:<br>Text = "Wordle",<br>Font = Segoe UI, 9pt,<br>AutoScaleMode = Font,<br>Size = 437, 356|                                         <img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/210612953-1ae9bbf3-b4e7-41b5-bd34-14ab674f7d3f.png" />         
+| **WordleForm**:<br>Text = "Wordle",<br>Font = Segoe UI, 9pt,<br>AutoScaleMode = Font,<br>Size = 437, 356|                                         <img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/214712801-0ab6ec9a-b7ea-4383-ac71-f55c57c351b4.png" />         
 | **btnReset**:<br>Font = Segoe UI, 9pt,<br>Text = Reset,<br>UseVisualStyleBackColor = True,<br>Location = 264, 74,<br>Margin = 3, 4, 3, 4,<br>Size = 110, 43|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209854900-3b4f4780-435a-4b6b-8985-005627d1a6e8.png" />
 | **btnSubmit**:<br>Font = Segoe UI, 9pt,<br>Text = Submit,<br>UseVisualStyleBackColor = True,<br>Location = 264, 125,<br>Margin = 3, 4, 3, 4,<br>Size = 110, 43|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209937640-634f5675-bcc9-41e8-8acc-3d4357be5d40.png" />  
 | **btnHint**:<br>Font = Segoe UI, 9pt,<br>Text = Hint,<br>UseVisualStyleBackColor = True,<br>Location = 264, 176,<br>Margin = 3, 4, 3, 4,<br>Size = 110, 43|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209938009-945de425-2ef1-438a-ada0-8b3299f3f3e5.png" />
-| **textBox**:<br>Font = Tahoma, 12pt,<br>MaxLength = 1,<br>Lines = String[] Array, 176,<br>Margin = 3, 4, 3, 4,<br>Size = 31, 32|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209941312-8e5c68ed-9b76-4892-8cf7-6a2e8a34a59d.png" />
+| **textBox1-30**:<br>Font = Tahoma, 12pt,<br>MaxLength = 1,<br>Lines = String[] Array, 176,<br>Margin = 3, 4, 3, 4,<br>Size = 31, 32|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/209941312-8e5c68ed-9b76-4892-8cf7-6a2e8a34a59d.png" />
+| **instructionsLabel**:<br>Font = Segoe UI, 9pt,<br>Location = 58, 11,<br>Text = Move with ← and →,<br>BackColor = ButtonHighlight,<br>Size = 141, 20|<img alt="Image" width="150" src="https://user-images.githubusercontent.com/99538671/214715991-ac67625b-902c-4a94-a80e-363b497bbe5e.png" />
 
 # Solution
 
