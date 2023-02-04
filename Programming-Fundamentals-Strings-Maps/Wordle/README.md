@@ -30,7 +30,7 @@ Rules:
 
 # Solution
 
-<img alt="Image" width="450" src="https://user-images.githubusercontent.com/99538671/209941855-cf04ef37-1af0-4bb9-b030-bf1e032dcb98.png" />
+<img alt="Image" width="450" src="https://user-images.githubusercontent.com/99538671/216777989-15d831af-1310-4831-8042-1c944a43c00d.png" />
 
 [Form Source Code](WordleForm.cs)
 
