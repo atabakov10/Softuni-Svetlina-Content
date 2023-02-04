@@ -39,6 +39,6 @@ Rules:
 
 <img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/216777140-6d21649a-0447-4b28-ba5e-ca98c40f97e8.png" />
 
-<img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/216777673-d7896886-e606-4244-b6de-c8e58c4531f4.png" /> -> <img alt="Image" width="200" src="https://user-images.githubusercontent.com/99538671/216777715-2fe39c8b-2b5e-43f7-8ece-179871642cf3.png" />
+<img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/216777673-d7896886-e606-4244-b6de-c8e58c4531f4.png" /> -> <img alt="Image" width="350" src="https://user-images.githubusercontent.com/99538671/216777715-2fe39c8b-2b5e-43f7-8ece-179871642cf3.png" />
 
 <img alt="Image" width="400" src="https://user-images.githubusercontent.com/99538671/216777170-4bed189c-681d-4757-930e-7bf2fe79d1a3.png" /> -> <img alt="Image" width="200" src="https://user-images.githubusercontent.com/99538671/216777298-2d81f660-34e5-4a22-a194-45f7b051a44f.png" />
