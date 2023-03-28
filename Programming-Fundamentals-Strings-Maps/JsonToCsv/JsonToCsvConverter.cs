@@ -1,4 +1,4 @@
-namespace JsonToCsv
+namespace JsonToCsvConverter
 {
 	internal static class Program
 	{

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonToCsv", "JsonToCsv.csproj", "{D255C3F0-535A-4E12-B012-523A8C0F3216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonToCsvConverter", "JsonToCsvConverter.csproj", "{D255C3F0-535A-4E12-B012-523A8C0F3216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

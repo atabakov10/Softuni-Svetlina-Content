@@ -1,153 +1,148 @@
-using System;
-using System.Text.Json;
+﻿using CsvHelper;
+using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Globalization;
+using System.Net;
 using System.Text.RegularExpressions;
-using static System.Int32;
 
-namespace JsonToCsv
+namespace JsonToCsvConverter;
+
+public static class JsonToCsv
 {
-	public partial class JsonToCsvForm : Form
+	private static IEnumerable<Country> countries = new List<Country>();
+
+	public static void CheckUserInput(string userInput)
 	{
+		string userInputValidator = @"^(?<path>\w+)/\w+/$";
 
-		public JsonToCsvForm()
+		Match match = Regex.Match(userInput, userInputValidator);
+
+		if (!match.Success || !IsApiPathValid(match))
 		{
-			InitializeComponent();
+			throw new Exception("Invalid input request");
 		}
+	}
 
-		private int count;
-		private string info;
+	public static bool IsApiPathValid(Match match)
+	{
+		string path = match.Groups["path"].Value;
 
-		private void InvalidInformation()
+		string[] allApiPaths = Enum.GetNames(typeof(ApiPaths));
+		bool isPathValid = allApiPaths.Any(x => x.Equals(path, StringComparison.OrdinalIgnoreCase));
+
+		if (isPathValid)
 		{
-			MessageBox.Show("Invalid JSON");
-			numberTextBox.Focus();
-			
-		}
-		public void OutputInformation(Dictionary<string, object> information)
-		{
-			if (information == null)
-			{
-				InvalidInformation();
-				return;
-			}
-			foreach (var d in information)
-			{
-				info = info + d.Key + ", ";
-			}
-			AddLine(info);
-			info = "";
-			foreach (var d in information)
-			{
-				info = info + d.Value + ", ";
-			}
-			AddLine(info);
-		}
-
-		public void AddObjects(string[] arrayObjects)
-		{
-			int row = 0;
-
-			foreach (string objects in arrayObjects)
-			{
-				// Deserializes our json and validates it
-				if (row == 0)
-				{
-					var information = JsonSerializer.Deserialize<Dictionary<string, object>>(objects);
-					OutputInformation(information);
-				}
-				else
-				{
-					string modifiedObject = "{" + objects;
-					var information = JsonSerializer.Deserialize<Dictionary<string, object>>(modifiedObject);
-					OutputInformation(information);
-				}
-				row++;
-			}
-		}
-		public void AddLine(string s)
-		{
-			// Appends our CSV converted JSON into two lines
-			s = s.Remove(s.Length - 2);
-			csvTextBox.AppendText(string.Join(" ", s, Environment.NewLine));
-		}
-
-		private void ResetButton_Click(object sender, EventArgs e)
-		{
-			// Resets the application
-			Application.Restart();
-		}
-
-		private void ButtonConverter_Click(object sender, EventArgs e)
-		{
-			// Using counter to count the clicks of the covert button, since it has two functions
-			count++;
-			var userDigit = numberTextBox.Text;
-
-			// If counter is at 1, it means we already clicked the btn, so now we need to rename it to [Convert to JSON]
-			if (count == 1)
-			{
-				if (ValidateUserDigit(userDigit) == false)
-				{
-					return;
-				}
-
-				string url = "https://contactbook.nakov.repl.co/api/contacts/";
-
-				HttpClient client = new HttpClient();
-
-				Task<string> response = client.GetStringAsync(url + userDigit);
-
-				ConvertButtonsAndTextBox(response);
-
-			}
-			// If we're at second click, we need to show the csv version of the json
-			else if (count == 2)
-			{
-				Regex arrayFinder = new Regex(@"\{(?<items>[^\]]*)\}");
-				string array = arrayFinder.Match(jsonTextBox.Text).Value;
-				string[] arrayObjects = array.Split(new string[] { ",{", ",\n{", ",\n  {" }, StringSplitOptions.None);
-
-				AddObjects(arrayObjects);
-				EndGame();
-			}
-		}
-
-		private void ConvertButtonsAndTextBox(Task<string> response)
-		{
-			var convertToJson = "Convert to CSV";
-
-			jsonTextBox.Text = response.Result;
-			btnConvert.Text = convertToJson;
-			btnConvert.Location = new Point(457, 200);
-		}
-		private void EndGame()
-		{
-			// Handle buttons
-			numberTextBox.ReadOnly = true;
-			btnConvert.Enabled = false;
-			this.btnReset.Focus();
-		}
-		private bool ValidateUserDigit(string userDigit)
-		{
-			// Tries to parse the text given from the user
-			TryParse(userDigit, out int digit);
-
-			if (digit == 0 || digit > 3)
-			{
-				count--;
-				MessageBox.Show("The number should be a valid, 1 to 3.");
-				numberTextBox.Focus();
-				return false;
-			}
 			return true;
 		}
 
-		private void TextBox3_TextChanged(object sender, EventArgs e)
+		return false;
+	}
+
+	public static string GetJson(string userInput)
+	{
+		Task<HttpResponseMessage> response = GetResponse(userInput);
+		HttpStatusCode statusCode = response.Result.StatusCode;
+
+		if (statusCode == HttpStatusCode.NotFound)
 		{
-			if (numberTextBox.TextLength != 0)
-			{
-				numberLabel.Hide();
-				btnConvert.Focus();
-			}
+			throw new Exception("No results found");
 		}
+		else if (statusCode != HttpStatusCode.OK)
+		{
+			throw new Exception("An error appeared! Try again.");
+		}
+
+		string responseAsString = ReadResponseAsStringAsync(response);
+
+		try
+		{
+			countries = DeserializeJson(responseAsString);
+		}
+		catch (Exception)
+		{
+			throw new Exception("Invalid JSON. Try another request.");
+		}
+
+		string countriesAsJson = SerializeJson();
+
+		return countriesAsJson;
+	}
+
+	public static Task<HttpResponseMessage> GetResponse(string userInput)
+	{
+		string url = $"https://restcountries.com/v3.1/{userInput}";
+
+		HttpClient client = new HttpClient();
+		Task<HttpResponseMessage> response = client.GetAsync(url);
+
+		return response;
+	}
+
+	public static string ReadResponseAsStringAsync(Task<HttpResponseMessage> response)
+	=> response.Result.Content.ReadAsStringAsync().Result;
+
+	public static IEnumerable<Country> DeserializeJson(string responseAsString)
+	 => JsonConvert.DeserializeObject<IEnumerable<Country>>(responseAsString)
+		.ToArray();
+
+	public static string SerializeJson()
+	{
+		JsonSerializerSettings settings = new JsonSerializerSettings
+		{
+			ContractResolver = new CamelCasePropertyNamesContractResolver(),
+		};
+		string serializedJson = JsonConvert
+			.SerializeObject(countries, Formatting.Indented, settings);
+
+		return serializedJson;
+	}
+
+	public static string GetCsv()
+	{
+		StringWriter writer = new StringWriter();
+
+		CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+		csv.WriteField("name/common");
+		csv.WriteField("name/official");
+		csv.WriteField("region");
+		csv.WriteField("subregion");
+		csv.WriteField("capital");
+		csv.NextRecord();
+
+
+		foreach (Country country in countries)
+		{
+			var countryCommonName = country.Names.Common == null
+				? string.Empty
+				: country.Names.Common;
+
+			var countryOfficialName = country.Names.Official == null
+				? string.Empty
+				: country.Names.Official;
+
+			var countryRegion = country.Region == null
+				? string.Empty
+				: country.Region;
+
+			var countrySubregion = country.Subregion == null
+				? string.Empty
+				: country.Subregion;
+
+			var countryCapitals = country.Capitals == null
+				? string.Empty
+				: string.Join(",", country.Capitals);
+
+			csv.WriteField(countryCommonName);
+			csv.WriteField(countryOfficialName);
+			csv.WriteField(countryRegion);
+			csv.WriteField(countrySubregion);
+			csv.WriteField(countryCapitals);
+			csv.NextRecord();
+		}
+
+		return writer.ToString();
 	}
 }
+
