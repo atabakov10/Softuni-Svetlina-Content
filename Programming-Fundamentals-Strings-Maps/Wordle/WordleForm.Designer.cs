@@ -33,6 +33,7 @@
 			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.textBox5 = new System.Windows.Forms.TextBox();
+			this.btnSubmit = new System.Windows.Forms.Button();
 			this.textBox6 = new System.Windows.Forms.TextBox();
 			this.textBox7 = new System.Windows.Forms.TextBox();
 			this.textBox8 = new System.Windows.Forms.TextBox();
@@ -59,7 +60,6 @@
 			this.textBox29 = new System.Windows.Forms.TextBox();
 			this.textBox30 = new System.Windows.Forms.TextBox();
 			this.btnReset = new System.Windows.Forms.Button();
-			this.btnSubmit = new System.Windows.Forms.Button();
 			this.btnHint = new System.Windows.Forms.Button();
 			this.instructionsLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
