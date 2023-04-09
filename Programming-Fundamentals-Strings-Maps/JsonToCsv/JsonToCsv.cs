@@ -1,10 +1,9 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration.Attributes;
+﻿using System.Net;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using CsvHelper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Globalization;
-using System.Net;
-using System.Text.RegularExpressions;
 
 namespace JsonToCsvConverter;
 
@@ -92,6 +91,7 @@ public static class JsonToCsv
 		{
 			ContractResolver = new CamelCasePropertyNamesContractResolver(),
 		};
+
 		string serializedJson = JsonConvert
 			.SerializeObject(countries, Formatting.Indented, settings);
 
@@ -101,7 +101,6 @@ public static class JsonToCsv
 	public static string GetCsv()
 	{
 		StringWriter writer = new StringWriter();
-
 		CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
 		csv.WriteField("name/common");
@@ -111,33 +110,36 @@ public static class JsonToCsv
 		csv.WriteField("capital");
 		csv.NextRecord();
 
-
 		foreach (Country country in countries)
 		{
 			var countryCommonName = country.Names.Common == null
 				? string.Empty
 				: country.Names.Common;
 
+			csv.WriteField(countryCommonName);
+
 			var countryOfficialName = country.Names.Official == null
 				? string.Empty
 				: country.Names.Official;
+
+			csv.WriteField(countryOfficialName);
 
 			var countryRegion = country.Region == null
 				? string.Empty
 				: country.Region;
 
+			csv.WriteField(countryRegion);
+
 			var countrySubregion = country.Subregion == null
 				? string.Empty
 				: country.Subregion;
+
+			csv.WriteField(countrySubregion);
 
 			var countryCapitals = country.Capitals == null
 				? string.Empty
 				: string.Join(",", country.Capitals);
 
-			csv.WriteField(countryCommonName);
-			csv.WriteField(countryOfficialName);
-			csv.WriteField(countryRegion);
-			csv.WriteField(countrySubregion);
 			csv.WriteField(countryCapitals);
 			csv.NextRecord();
 		}

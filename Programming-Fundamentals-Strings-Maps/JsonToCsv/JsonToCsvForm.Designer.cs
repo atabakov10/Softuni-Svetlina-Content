@@ -45,7 +45,7 @@
 			btnRequest.Location = new Point(485, 121);
 			btnRequest.Name = "btnRequest";
 			btnRequest.Size = new Size(170, 51);
-			btnRequest.TabIndex = 1;
+			btnRequest.TabIndex = 4;
 			btnRequest.Text = "Request API";
 			btnRequest.UseVisualStyleBackColor = true;
 			btnRequest.Click += RequestButtonClick;
@@ -86,7 +86,7 @@
 			labelJson.Location = new Point(223, 85);
 			labelJson.Name = "labelJson";
 			labelJson.Size = new Size(47, 20);
-			labelJson.TabIndex = 6;
+			labelJson.TabIndex = 7;
 			labelJson.Text = "JSON";
 			// 
 			// labelCsv
@@ -97,7 +97,7 @@
 			labelCsv.Location = new Point(863, 85);
 			labelCsv.Name = "labelCsv";
 			labelCsv.Size = new Size(36, 20);
-			labelCsv.TabIndex = 7;
+			labelCsv.TabIndex = 8;
 			labelCsv.Text = "CSV";
 			// 
 			// labelUrl
@@ -109,7 +109,7 @@
 			labelUrl.Location = new Point(354, 52);
 			labelUrl.Name = "labelUrl";
 			labelUrl.Size = new Size(263, 25);
-			labelUrl.TabIndex = 8;
+			labelUrl.TabIndex = 9;
 			labelUrl.Text = " https://restcountries.com/v3.1/";
 			// 
 			// btnConvert
@@ -117,7 +117,7 @@
 			btnConvert.Location = new Point(485, 179);
 			btnConvert.Name = "btnConvert";
 			btnConvert.Size = new Size(170, 51);
-			btnConvert.TabIndex = 9;
+			btnConvert.TabIndex = 5;
 			btnConvert.Text = "Convert to CSV";
 			btnConvert.UseVisualStyleBackColor = true;
 			btnConvert.Visible = false;
@@ -139,7 +139,7 @@
 			labelEndpoints.Location = new Point(485, 265);
 			labelEndpoints.Name = "labelEndpoints";
 			labelEndpoints.Size = new Size(170, 187);
-			labelEndpoints.TabIndex = 10;
+			labelEndpoints.TabIndex = 6;
 			labelEndpoints.Text = "Endpoints:\r\n - name/{name}\r\n   (name/peru)\r\n - region/{region}\r\n   (region/europe)\r\n - subregion/{region}\r\n   (subregion/europe)\r\n - capital/{capital}\r\n   (capital/lima)";
 			// 
 			// JsonToCsvForm
